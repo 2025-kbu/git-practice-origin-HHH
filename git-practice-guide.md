@@ -2,9 +2,11 @@
 
 ## 🧾 실습 개요
 
-- 각 팀은 GitHub Organization에 초대받았고, 팀별로 실습용 리포지토리를 **Fork**하여 사용합니다.
 - 실습은 **3~4인 1팀**으로 진행하며, Git의 기본 명령어와 협업 기능을 실습합니다.
-- 리포지토리 이름 예시: `git-practice-main`
+- 팀별로 실습용 리포지토리를 **Fork**하여 사용합니다.
+- 리포지토리 이름: `git-practice-origin`
+    - 팀 구성원중 1명만 Fork한뒤, 이름을 변경
+    - 팀 구성원 모두 로컬에 clone
 
 ---
 
@@ -26,13 +28,13 @@ git-practice-main/
 
 **목표:** `main` 브랜치에서 clone, commit, push, pull 등의 기본 흐름 실습
 
-1. 팀 리포지토리를 Fork한 뒤, `main` 브랜치를 clone 합니다.
+1. 팀 리포지토리를 Clone 하고 `main` 브랜치를 확인한다.
 2. `README.md`에 각 팀원 이름을 추가하고 commit, push 합니다.
 3. 다른 팀원은 `fetch`와 `pull`을 통해 변경사항을 받아옵니다.
 
 ```bash
-git clone https://github.com/<your-org>/git-practice-main.git
-cd git-practice-main
+git clone https://github.com/2025-kbu/<team-repository-name>.git
+cd <team-repository-name>
 echo "- 김학생" >> README.md
 git add README.md
 git commit -m "Add student name"
@@ -66,7 +68,28 @@ git merge --squash feature/date-enhance
 git commit -m "Squash merge for date enhancement"
 ```
 
-3. `rebase` 실습: `feature/extra` 브랜치를 만든 뒤 rebase 합니다.
+3. `rebase` 실습: `feature/extra` 브랜치를 만든 뒤, 최신 `main` 브랜치를 기준으로 rebase 합니다.
+
+```bash
+git checkout -b feature/extra
+echo "echo 'Hello Git'" > hello.sh
+git add hello.sh
+git commit -m "Add hello script"
+
+# main 브랜치를 최신 상태로 갱신하고 rebase 수행
+git checkout main
+git pull origin main
+git checkout feature/extra
+git rebase main
+
+# 충돌이 발생하면 충돌 파일 수정 후
+git add <파일명>
+git rebase --continue
+
+# rebase 완료 후 병합
+git checkout main
+git merge --no-ff feature/extra
+```
 
 ---
 
@@ -77,7 +100,16 @@ git commit -m "Squash merge for date enhancement"
 1. 팀원 중 한 명이 Issue 생성
 2. 해당 이슈를 해결하는 브랜치를 생성하고 작업
 3. Pull Request를 생성하고 팀원 리뷰
-4. PR에는 이슈 번호를 명시 (`Fixes #3` 등)
+4. PR에는 이슈 번호를 명시 (`[Fixes #3] solution` 등)
+
+---
+
+### [추가 팁]
+```bash
+git log --oneline --graph --all # 히스토리 확인
+git rebase -i main # squash까지 함께 실습 가능
+```
+	
 
 ---
 
@@ -99,22 +131,3 @@ git commit -m "Squash merge for date enhancement"
 ```bash
 ./scripts/file_finder.sh txt
 ```
-
----
-
-## 📌 평가 기준
-
-| 항목 | 확인 방법 |
-|------|-----------|
-| 브랜치 생성 | `git branch`, `git log --graph` |
-| 기능 구현 | 스크립트 실행 결과 확인 |
-| Pull Request | GitHub 기록 |
-| 이슈 생성 및 연결 | GitHub Issue & PR |
-| squash / no-ff 머지 여부 | `git log --graph` |
-
----
-
-## 📦 실습 파일 다운로드
-
-> 실습 템플릿 파일을 아래에서 다운로드 후 GitHub에 업로드하세요:  
-[git-practice-main.zip 다운로드](sandbox:/mnt/data/git-practice-main.zip)
