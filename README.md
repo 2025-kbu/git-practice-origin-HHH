@@ -8,3 +8,5 @@ Each team should fork this repository and perform exercises in their own forked 
 - Use of Git commands: commit, clone, push, fetch, pull, merge
 - Branch management with merge, rebase, squash
 - Collaboration using issues and pull requests
+
+
